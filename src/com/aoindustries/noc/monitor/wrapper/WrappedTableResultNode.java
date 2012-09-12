@@ -9,6 +9,7 @@ import com.aoindustries.noc.monitor.common.TableResult;
 import com.aoindustries.noc.monitor.common.TableResultListener;
 import com.aoindustries.noc.monitor.common.TableResultNode;
 import java.rmi.RemoteException;
+import java.util.concurrent.Callable;
 
 /**
  * @author  AO Industries, Inc.
@@ -23,17 +24,40 @@ public class WrappedTableResultNode extends WrappedNode implements TableResultNo
     }
 
     @Override
-    public void addTableResultListener(TableResultListener tableResultListener) throws RemoteException {
-        wrapped.addTableResultListener(tableResultListener);
+    final public void addTableResultListener(final TableResultListener tableResultListener) throws RemoteException {
+        monitor.call(
+            new Callable<Void>() {
+                @Override
+                public Void call() throws RemoteException {
+                    wrapped.addTableResultListener(tableResultListener);
+                    return null;
+                }
+            }
+        );
     }
 
     @Override
-    public void removeTableResultListener(TableResultListener tableResultListener) throws RemoteException {
-        wrapped.removeTableResultListener(tableResultListener);
+    final public void removeTableResultListener(final TableResultListener tableResultListener) throws RemoteException {
+        monitor.call(
+            new Callable<Void>() {
+                @Override
+                public Void call() throws RemoteException {
+                    wrapped.removeTableResultListener(tableResultListener);
+                    return null;
+                }
+            }
+        );
     }
 
     @Override
-    public TableResult getLastResult() throws RemoteException {
-        return wrapped.getLastResult();
+    final public TableResult getLastResult() throws RemoteException {
+        return monitor.call(
+            new Callable<TableResult>() {
+                @Override
+                public TableResult call() throws RemoteException {
+                    return wrapped.getLastResult();
+                }
+            }
+        );
     }
 }

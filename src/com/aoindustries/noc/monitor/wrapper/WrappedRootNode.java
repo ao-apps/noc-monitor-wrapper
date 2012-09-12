@@ -11,6 +11,7 @@ import com.aoindustries.noc.monitor.common.RootNode;
 import com.aoindustries.noc.monitor.common.TreeListener;
 import java.rmi.RemoteException;
 import java.util.SortedSet;
+import java.util.concurrent.Callable;
 
 /**
  * @author  AO Industries, Inc.
@@ -25,20 +26,43 @@ public class WrappedRootNode extends WrappedNode implements RootNode {
     }
 
     @Override
-    public void addTreeListener(TreeListener treeListener) throws RemoteException {
-        wrapped.addTreeListener(treeListener);
+    final public void addTreeListener(final TreeListener treeListener) throws RemoteException {
+        monitor.call(
+            new Callable<Void>() {
+                @Override
+                public Void call() throws RemoteException {
+                    wrapped.addTreeListener(treeListener);
+                    return null;
+                }
+            }
+        );
     }
 
     @Override
-    public void removeTreeListener(TreeListener treeListener) throws RemoteException {
-        wrapped.removeTreeListener(treeListener);
+    final public void removeTreeListener(final TreeListener treeListener) throws RemoteException {
+        monitor.call(
+            new Callable<Void>() {
+                @Override
+                public Void call() throws RemoteException {
+                    wrapped.removeTreeListener(treeListener);
+                    return null;
+                }
+            }
+        );
     }
 
     @Override
-    public NodeSnapshot getSnapshot() throws RemoteException {
-        NodeSnapshot nodeSnapshot = wrapped.getSnapshot();
-        wrapSnapshot(monitor, nodeSnapshot);
-        return nodeSnapshot;
+    final public NodeSnapshot getSnapshot() throws RemoteException {
+        return monitor.call(
+            new Callable<NodeSnapshot>() {
+                @Override
+                public NodeSnapshot call() throws RemoteException {
+                    NodeSnapshot nodeSnapshot = wrapped.getSnapshot();
+                    wrapSnapshot(monitor, nodeSnapshot);
+                    return nodeSnapshot;
+                }
+            }
+        );
     }
 
     /**
@@ -50,7 +74,14 @@ public class WrappedRootNode extends WrappedNode implements RootNode {
     }
 
     @Override
-    public SortedSet<MonitoringPoint> getMonitoringPoints() throws RemoteException {
-        return wrapped.getMonitoringPoints();
+    final public SortedSet<MonitoringPoint> getMonitoringPoints() throws RemoteException {
+        return monitor.call(
+            new Callable<SortedSet<MonitoringPoint>>() {
+                @Override
+                public SortedSet<MonitoringPoint> call() throws RemoteException {
+                    return wrapped.getMonitoringPoints();
+                }
+            }
+        );
     }
 }

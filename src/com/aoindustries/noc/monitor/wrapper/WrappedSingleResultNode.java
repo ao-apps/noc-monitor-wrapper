@@ -9,6 +9,7 @@ import com.aoindustries.noc.monitor.common.SingleResultListener;
 import com.aoindustries.noc.monitor.common.SingleResultNode;
 import com.aoindustries.noc.monitor.common.SingleResult;
 import java.rmi.RemoteException;
+import java.util.concurrent.Callable;
 
 /**
  * @author  AO Industries, Inc.
@@ -23,17 +24,40 @@ public class WrappedSingleResultNode extends WrappedNode implements SingleResult
     }
 
     @Override
-    public void addSingleResultListener(SingleResultListener singleResultListener) throws RemoteException {
-        wrapped.addSingleResultListener(singleResultListener);
+    final public void addSingleResultListener(final SingleResultListener singleResultListener) throws RemoteException {
+        monitor.call(
+            new Callable<Void>() {
+                @Override
+                public Void call() throws RemoteException {
+                    wrapped.addSingleResultListener(singleResultListener);
+                    return null;
+                }
+            }
+        );
     }
 
     @Override
-    public void removeSingleResultListener(SingleResultListener singleResultListener) throws RemoteException {
-        wrapped.removeSingleResultListener(singleResultListener);
+    final public void removeSingleResultListener(final SingleResultListener singleResultListener) throws RemoteException {
+        monitor.call(
+            new Callable<Void>() {
+                @Override
+                public Void call() throws RemoteException {
+                    wrapped.removeSingleResultListener(singleResultListener);
+                    return null;
+                }
+            }
+        );
     }
 
     @Override
-    public SingleResult getLastResult() throws RemoteException {
-        return wrapped.getLastResult();
+    final public SingleResult getLastResult() throws RemoteException {
+        return monitor.call(
+            new Callable<SingleResult>() {
+                @Override
+                public SingleResult call() throws RemoteException {
+                    return wrapped.getLastResult();
+                }
+            }
+        );
     }
 }

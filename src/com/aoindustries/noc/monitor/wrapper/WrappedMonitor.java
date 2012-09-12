@@ -13,12 +13,14 @@ import com.aoindustries.noc.monitor.common.TableMultiResult;
 import com.aoindustries.noc.monitor.common.TableMultiResultNode;
 import com.aoindustries.noc.monitor.common.TableResultNode;
 import com.aoindustries.util.IdentityKey;
+import com.aoindustries.util.WrappedException;
 import java.io.IOException;
 import java.rmi.RemoteException;
 import java.sql.SQLException;
 import java.util.Locale;
 import java.util.Map;
 import java.util.WeakHashMap;
+import java.util.concurrent.Callable;
 
 /**
  * The general framework RMI server for wrapping and exposing monitors to the network.
@@ -28,12 +30,72 @@ import java.util.WeakHashMap;
  *
  * @author  AO Industries, Inc.
  */
-public class WrappedMonitor implements Monitor {
+abstract public class WrappedMonitor implements Monitor {
 
-    private final Monitor wrapped;
+    final Object connectionLock = new Object();
+    private Monitor wrapped;
 
-    public WrappedMonitor(Monitor wrapped) throws RemoteException {
+    /**
+     * Wraps the provided monitor.
+     */
+    public WrappedMonitor(Monitor wrapped) {
         this.wrapped = wrapped;
+    }
+
+    /**
+     * Will connect when first needed.
+     */
+    public WrappedMonitor() {
+        this.wrapped = null;
+        // Connect immediately in order to have the chance to throw exceptions that will occur during connection
+        //getWrapped();
+    }
+
+    /**
+     * Disconnects this wrapper.  The wrapper will automatically reconnect on the next use.
+     * TODO: How to signal outer cache layers?
+     */
+    final protected void disconnect() throws RemoteException {
+        synchronized(connectionLock) {
+            wrapped = null;
+        }
+    }
+
+    /**
+     * Gets the wrapped monitor, reconnecting if needed.
+     */
+    final protected Monitor getWrapped() throws RemoteException {
+        synchronized(connectionLock) {
+            // (Re)connects to the wrapped factory
+            if(wrapped==null) wrapped = connect();
+            return wrapped;
+        }
+    }
+
+    /**
+     * Connects to the wrapped monitor.  This is only called when disconnected or not yet connected.
+     */
+    abstract protected Monitor connect();
+
+    /**
+     * Performs the call on the wrapped object, allowing retry.
+     */
+    final protected <T> T call(Callable<T> callable) throws RemoteException {
+        return call(callable, true);
+    }
+
+    /**
+     * Performs the call on the wrapped object.  This is the main hook to intercept requests
+     * for features like auto-reconnects, timeouts, and retries.
+     */
+    protected <T> T call(Callable<T> callable, boolean allowRetry) throws RemoteException {
+        try {
+            return callable.call();
+        } catch(RemoteException err) {
+            throw err;
+        } catch(Exception err) {
+            throw new RuntimeException(err.getMessage(), err);
+        }
     }
 
     /**
@@ -41,8 +103,28 @@ public class WrappedMonitor implements Monitor {
      * reuse existing root nodes.
      */
     @Override
-    public WrappedRootNode login(Locale locale, String username, String password) throws RemoteException, IOException, SQLException {
-        return wrapRootNode(wrapped.login(locale, username, password));
+    final public WrappedRootNode login(final Locale locale, final String username, final String password) throws RemoteException, IOException, SQLException {
+        try {
+            return call(
+                new Callable<WrappedRootNode>() {
+                    @Override
+                    public WrappedRootNode call() throws RemoteException {
+                        try {
+                            return wrapRootNode(getWrapped().login(locale, username, password));
+                        } catch(IOException e) {
+                            throw new WrappedException(e);
+                        } catch(SQLException e) {
+                            throw new WrappedException(e);
+                        }
+                    }
+                }
+            );
+        } catch(WrappedException e) {
+            Throwable cause = e.getCause();
+            if(cause instanceof IOException) throw (IOException)cause;
+            if(cause instanceof SQLException) throw (SQLException)cause;
+            throw e;
+        }
     }
 
     private final Map<IdentityKey<Node>,WrappedNode> nodeCache = new WeakHashMap<IdentityKey<Node>,WrappedNode>();
