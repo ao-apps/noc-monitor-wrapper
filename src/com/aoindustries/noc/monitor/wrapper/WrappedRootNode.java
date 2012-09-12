@@ -20,7 +20,7 @@ public class WrappedRootNode extends WrappedNode implements RootNode {
 
     final private RootNode wrapped;
 
-    WrappedRootNode(WrappedMonitor monitor, RootNode wrapped) throws RemoteException {
+    protected WrappedRootNode(WrappedMonitor monitor, RootNode wrapped) {
         super(monitor, wrapped);
         this.wrapped = wrapped;
     }

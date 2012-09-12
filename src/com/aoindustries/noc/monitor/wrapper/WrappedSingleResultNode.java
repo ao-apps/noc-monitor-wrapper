@@ -18,7 +18,7 @@ public class WrappedSingleResultNode extends WrappedNode implements SingleResult
 
     final private SingleResultNode wrapped;
 
-    WrappedSingleResultNode(WrappedMonitor monitor, SingleResultNode wrapped) throws RemoteException {
+    protected WrappedSingleResultNode(WrappedMonitor monitor, SingleResultNode wrapped) {
         super(monitor, wrapped);
         this.wrapped = wrapped;
     }

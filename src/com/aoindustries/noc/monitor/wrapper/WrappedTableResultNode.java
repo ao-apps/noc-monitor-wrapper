@@ -18,7 +18,7 @@ public class WrappedTableResultNode extends WrappedNode implements TableResultNo
 
     final private TableResultNode wrapped;
 
-    WrappedTableResultNode(WrappedMonitor monitor, TableResultNode wrapped) throws RemoteException {
+    protected WrappedTableResultNode(WrappedMonitor monitor, TableResultNode wrapped) {
         super(monitor, wrapped);
         this.wrapped = wrapped;
     }

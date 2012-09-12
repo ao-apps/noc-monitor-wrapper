@@ -22,7 +22,7 @@ public class WrappedNode implements Node {
     final protected WrappedMonitor monitor;
     final private Node wrapped;
 
-    WrappedNode(WrappedMonitor monitor, Node wrapped) throws RemoteException {
+    protected WrappedNode(WrappedMonitor monitor, Node wrapped) {
         this.monitor = monitor;
         this.wrapped = wrapped;
     }

@@ -19,7 +19,7 @@ public class WrappedTableMultiResultNode<R extends TableMultiResult> extends Wra
 
     final private TableMultiResultNode<R> wrapped;
 
-    WrappedTableMultiResultNode(WrappedMonitor monitor, TableMultiResultNode<R> wrapped) throws RemoteException {
+    protected WrappedTableMultiResultNode(WrappedMonitor monitor, TableMultiResultNode<R> wrapped) {
         super(monitor, wrapped);
         this.wrapped = wrapped;
     }

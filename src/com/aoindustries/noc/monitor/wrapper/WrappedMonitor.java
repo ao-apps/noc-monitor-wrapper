@@ -47,8 +47,6 @@ public class WrappedMonitor implements Monitor {
      */
     public WrappedMonitor() {
         this.wrapped = null;
-        // Connect immediately in order to have the chance to throw exceptions that will occur during connection
-        //getWrapped();
     }
 
     /**
@@ -86,7 +84,7 @@ public class WrappedMonitor implements Monitor {
      * @see #disconnect()
      * @see #getWrapped()
      */
-    protected Monitor connect() throws UnsupportedOperationException {
+    protected Monitor connect() throws RemoteException, UnsupportedOperationException {
         throw new UnsupportedOperationException("Reconnect not supported.");
     }
 
