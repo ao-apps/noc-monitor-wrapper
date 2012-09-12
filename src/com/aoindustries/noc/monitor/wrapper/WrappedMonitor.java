@@ -30,7 +30,7 @@ import java.util.concurrent.Callable;
  *
  * @author  AO Industries, Inc.
  */
-abstract public class WrappedMonitor implements Monitor {
+public class WrappedMonitor implements Monitor {
 
     final Object connectionLock = new Object();
     private Monitor wrapped;
@@ -54,6 +54,9 @@ abstract public class WrappedMonitor implements Monitor {
     /**
      * Disconnects this wrapper.  The wrapper will automatically reconnect on the next use.
      * TODO: How to signal outer cache layers?
+     *
+     * @see #getWrapped()
+     * @see #connect()
      */
     final protected void disconnect() throws RemoteException {
         synchronized(connectionLock) {
@@ -63,6 +66,9 @@ abstract public class WrappedMonitor implements Monitor {
 
     /**
      * Gets the wrapped monitor, reconnecting if needed.
+     *
+     * @see #disconnect()
+     * @see #connect()
      */
     final protected Monitor getWrapped() throws RemoteException {
         synchronized(connectionLock) {
@@ -74,8 +80,15 @@ abstract public class WrappedMonitor implements Monitor {
 
     /**
      * Connects to the wrapped monitor.  This is only called when disconnected or not yet connected.
+     *
+     * @exception  UnsupportedOperationException  if not supported
+     *
+     * @see #disconnect()
+     * @see #getWrapped()
      */
-    abstract protected Monitor connect();
+    protected Monitor connect() throws UnsupportedOperationException {
+        throw new UnsupportedOperationException("Reconnect not supported.");
+    }
 
     /**
      * Performs the call on the wrapped object, allowing retry.
