@@ -23,10 +23,10 @@ import java.util.WeakHashMap;
 import java.util.concurrent.Callable;
 
 /**
- * The general framework RMI server for wrapping and exposing monitors to the network.
- *
- * Exports the monitor and all nodes.  The wrapped monitor is not exported directly,
- * but rather this wrapper of it is exported.
+ * Wraps a monitor, completely hiding both the monitor from the caller and the callbacks from the monitor.
+ * Also provides the basic mechanism for disconnect and reconnect.
+ * Provides a single call method that all calls are sent through.
+ * Provides factory methods to create specialized wrappers or otherwise alter the default wrappers.
  *
  * @author  AO Industries, Inc.
  */
