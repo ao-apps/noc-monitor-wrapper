@@ -28,11 +28,11 @@ import java.util.WeakHashMap;
  *
  * @author  AO Industries, Inc.
  */
-public abstract class WrappedMonitor implements Monitor {
+public class WrappedMonitor implements Monitor {
 
     private final Monitor wrapped;
 
-    protected WrappedMonitor(Monitor wrapped) throws RemoteException {
+    public WrappedMonitor(Monitor wrapped) throws RemoteException {
         this.wrapped = wrapped;
     }
 
@@ -46,7 +46,7 @@ public abstract class WrappedMonitor implements Monitor {
     }
 
     private final Map<IdentityKey<Node>,WrappedNode> nodeCache = new WeakHashMap<IdentityKey<Node>,WrappedNode>();
-    WrappedNode wrapNode(Node node) throws RemoteException {
+    final WrappedNode wrapNode(Node node) throws RemoteException {
         if(node instanceof SingleResultNode) {
             return (WrappedNode)wrapSingleResultNode((SingleResultNode)node);
         } else if(node instanceof TableResultNode) {
@@ -71,10 +71,12 @@ public abstract class WrappedMonitor implements Monitor {
             }
         }
     }
-    protected abstract WrappedNode newWrappedNode(Node node) throws RemoteException;
+    protected WrappedNode newWrappedNode(Node node) throws RemoteException {
+        return new WrappedNode(this, node);
+    }
 
     private final Map<IdentityKey<RootNode>,WrappedRootNode> rootNodeCache = new WeakHashMap<IdentityKey<RootNode>,WrappedRootNode>();
-    WrappedRootNode wrapRootNode(RootNode node) throws RemoteException {
+    final WrappedRootNode wrapRootNode(RootNode node) throws RemoteException {
         if(node instanceof WrappedRootNode) {
             WrappedRootNode wrapper = (WrappedRootNode)node;
             if(wrapper.monitor==this) return wrapper;
@@ -89,10 +91,12 @@ public abstract class WrappedMonitor implements Monitor {
             return wrapper;
         }
     }
-    protected abstract WrappedRootNode newWrappedRootNode(RootNode node) throws RemoteException;
+    protected WrappedRootNode newWrappedRootNode(RootNode node) throws RemoteException {
+        return new WrappedRootNode(this, node);
+    }
 
     private final Map<IdentityKey<SingleResultNode>,WrappedSingleResultNode> singleResultNodeCache = new WeakHashMap<IdentityKey<SingleResultNode>,WrappedSingleResultNode>();
-    WrappedSingleResultNode wrapSingleResultNode(SingleResultNode node) throws RemoteException {
+    final WrappedSingleResultNode wrapSingleResultNode(SingleResultNode node) throws RemoteException {
         if(node instanceof WrappedSingleResultNode) {
             WrappedSingleResultNode wrapper = (WrappedSingleResultNode)node;
             if(wrapper.monitor==this) return wrapper;
@@ -107,10 +111,12 @@ public abstract class WrappedMonitor implements Monitor {
             return wrapper;
         }
     }
-    protected abstract WrappedSingleResultNode newWrappedSingleResultNode(SingleResultNode node) throws RemoteException;
+    protected WrappedSingleResultNode newWrappedSingleResultNode(SingleResultNode node) throws RemoteException {
+        return new WrappedSingleResultNode(this, node);
+    }
 
     private final Map<IdentityKey<TableMultiResultNode>,WrappedTableMultiResultNode> tableMultiResultNodeCache = new WeakHashMap<IdentityKey<TableMultiResultNode>,WrappedTableMultiResultNode>();
-    <R extends TableMultiResult> WrappedTableMultiResultNode<R> wrapTableMultiResultNode(TableMultiResultNode<R> node) throws RemoteException {
+    final <R extends TableMultiResult> WrappedTableMultiResultNode<R> wrapTableMultiResultNode(TableMultiResultNode<R> node) throws RemoteException {
         if(node instanceof WrappedTableMultiResultNode<?>) {
             WrappedTableMultiResultNode<R> wrapper = (WrappedTableMultiResultNode<R>)node;
             if(wrapper.monitor==this) return wrapper;
@@ -125,10 +131,12 @@ public abstract class WrappedMonitor implements Monitor {
             return wrapper;
         }
     }
-    protected abstract <R extends TableMultiResult> WrappedTableMultiResultNode<R> newWrappedTableMultiResultNode(TableMultiResultNode<R> node) throws RemoteException;
+    protected <R extends TableMultiResult> WrappedTableMultiResultNode<R> newWrappedTableMultiResultNode(TableMultiResultNode<R> node) throws RemoteException {
+        return new WrappedTableMultiResultNode<R>(this, node);
+    }
 
     private final Map<IdentityKey<TableResultNode>,WrappedTableResultNode> tableResultNodeCache = new WeakHashMap<IdentityKey<TableResultNode>,WrappedTableResultNode>();
-    WrappedTableResultNode wrapTableResultNode(TableResultNode node) throws RemoteException {
+    final WrappedTableResultNode wrapTableResultNode(TableResultNode node) throws RemoteException {
         if(node instanceof WrappedTableResultNode) {
             WrappedTableResultNode wrapper = (WrappedTableResultNode)node;
             if(wrapper.monitor==this) return wrapper;
@@ -143,5 +151,7 @@ public abstract class WrappedMonitor implements Monitor {
             return wrapper;
         }
     }
-    protected abstract WrappedTableResultNode newWrappedTableResultNode(TableResultNode node) throws RemoteException;
+    protected WrappedTableResultNode newWrappedTableResultNode(TableResultNode node) throws RemoteException {
+        return new WrappedTableResultNode(this, node);
+    }
 }
