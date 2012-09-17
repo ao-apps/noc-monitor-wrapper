@@ -24,40 +24,17 @@ public class WrappedTableResultNode extends WrappedNode implements TableResultNo
     }
 
     @Override
-    final public void addTableResultListener(final TableResultListener tableResultListener) throws RemoteException {
-        monitor.call(
-            new Callable<Void>() {
-                @Override
-                public Void call() throws RemoteException {
-                    wrapped.addTableResultListener(monitor.wrapTableResultListener(tableResultListener));
-                    return null;
-                }
-            }
-        );
+    public void addTableResultListener(TableResultListener tableResultListener) throws RemoteException {
+        wrapped.addTableResultListener(monitor.wrapTableResultListener(tableResultListener));
     }
 
     @Override
-    final public void removeTableResultListener(final TableResultListener tableResultListener) throws RemoteException {
-        monitor.call(
-            new Callable<Void>() {
-                @Override
-                public Void call() throws RemoteException {
-                    wrapped.removeTableResultListener(monitor.wrapTableResultListener(tableResultListener));
-                    return null;
-                }
-            }
-        );
+    public void removeTableResultListener(TableResultListener tableResultListener) throws RemoteException {
+        wrapped.removeTableResultListener(monitor.wrapTableResultListener(tableResultListener));
     }
 
     @Override
-    final public TableResult getLastResult() throws RemoteException {
-        return monitor.call(
-            new Callable<TableResult>() {
-                @Override
-                public TableResult call() throws RemoteException {
-                    return wrapped.getLastResult();
-                }
-            }
-        );
+    public TableResult getLastResult() throws RemoteException {
+        return wrapped.getLastResult();
     }
 }

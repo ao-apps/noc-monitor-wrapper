@@ -10,7 +10,6 @@ import com.aoindustries.noc.monitor.common.TableMultiResultListener;
 import com.aoindustries.noc.monitor.common.TableMultiResultNode;
 import java.rmi.RemoteException;
 import java.util.List;
-import java.util.concurrent.Callable;
 
 /**
  * @author  AO Industries, Inc.
@@ -25,52 +24,22 @@ public class WrappedTableMultiResultNode<R extends TableMultiResult> extends Wra
     }
 
     @Override
-    final public void addTableMultiResultListener(final TableMultiResultListener<? super R> tableMultiResultListener) throws RemoteException {
-        monitor.call(
-            new Callable<Void>() {
-                @Override
-                public Void call() throws RemoteException {
-                    wrapped.addTableMultiResultListener(monitor.wrapTableMultiResultListener(tableMultiResultListener));
-                    return null;
-                }
-            }
-        );
+    public void addTableMultiResultListener(TableMultiResultListener<? super R> tableMultiResultListener) throws RemoteException {
+        wrapped.addTableMultiResultListener(monitor.wrapTableMultiResultListener(tableMultiResultListener));
     }
 
     @Override
-    final public void removeTableMultiResultListener(final TableMultiResultListener<? super R> tableMultiResultListener) throws RemoteException {
-        monitor.call(
-            new Callable<Void>() {
-                @Override
-                public Void call() throws RemoteException {
-                    wrapped.removeTableMultiResultListener(monitor.wrapTableMultiResultListener(tableMultiResultListener));
-                    return null;
-                }
-            }
-        );
+    public void removeTableMultiResultListener(TableMultiResultListener<? super R> tableMultiResultListener) throws RemoteException {
+        wrapped.removeTableMultiResultListener(monitor.wrapTableMultiResultListener(tableMultiResultListener));
     }
 
     @Override
-    final public List<?> getColumnHeaders() throws RemoteException {
-        return monitor.call(
-            new Callable<List<?>>() {
-                @Override
-                public List<?> call() throws RemoteException {
-                    return wrapped.getColumnHeaders();
-                }
-            }
-        );
+    public List<?> getColumnHeaders() throws RemoteException {
+        return wrapped.getColumnHeaders();
     }
 
     @Override
-    final public List<? extends R> getResults() throws RemoteException {
-        return monitor.call(
-            new Callable<List<? extends R>>() {
-                @Override
-                public List<? extends R> call() throws RemoteException {
-                    return wrapped.getResults();
-                }
-            }
-        );
+    public List<? extends R> getResults() throws RemoteException {
+        return wrapped.getResults();
     }
 }

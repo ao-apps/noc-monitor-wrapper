@@ -17,19 +17,16 @@ import com.aoindustries.noc.monitor.common.TableResultListener;
 import com.aoindustries.noc.monitor.common.TableResultNode;
 import com.aoindustries.noc.monitor.common.TreeListener;
 import com.aoindustries.util.IdentityKey;
-import com.aoindustries.util.WrappedException;
 import java.io.IOException;
 import java.rmi.RemoteException;
 import java.sql.SQLException;
 import java.util.Locale;
 import java.util.Map;
 import java.util.WeakHashMap;
-import java.util.concurrent.Callable;
 
 /**
  * Wraps a monitor, completely hiding both the monitor from the caller and the callbacks from the monitor.
  * Also provides the basic mechanism for disconnect and reconnect.
- * Provides a single call method that all calls are sent through.
  * Provides factory methods to create specialized wrappers or otherwise alter the default wrappers.
  *
  * @author  AO Industries, Inc.
@@ -94,57 +91,14 @@ public class WrappedMonitor implements Monitor {
     }
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="Callable">
-    /**
-     * Performs the call on the wrapped object, allowing retry.
-     */
-    final protected <T> T call(Callable<T> callable) throws RemoteException {
-        return call(callable, true);
-    }
-
-    /**
-     * Performs the call on the wrapped object.  This is the main hook to intercept requests
-     * for features like auto-reconnects, timeouts, and retries.
-     */
-    protected <T> T call(Callable<T> callable, boolean allowRetry) throws RemoteException {
-        try {
-            return callable.call();
-        } catch(RemoteException err) {
-            throw err;
-        } catch(Exception err) {
-            throw new RuntimeException(err.getMessage(), err);
-        }
-    }
-    // </editor-fold>
-
     // <editor-fold defaultstate="collapsed" desc="Monitor">
     /**
      * Gets the root node for the given locale, username, and password.  May
      * reuse existing root nodes.
      */
     @Override
-    final public WrappedRootNode login(final Locale locale, final String username, final String password) throws RemoteException, IOException, SQLException {
-        try {
-            return call(
-                new Callable<WrappedRootNode>() {
-                    @Override
-                    public WrappedRootNode call() throws RemoteException {
-                        try {
-                            return wrapRootNode(getWrapped().login(locale, username, password));
-                        } catch(IOException e) {
-                            throw new WrappedException(e);
-                        } catch(SQLException e) {
-                            throw new WrappedException(e);
-                        }
-                    }
-                }
-            );
-        } catch(WrappedException e) {
-            Throwable cause = e.getCause();
-            if(cause instanceof IOException) throw (IOException)cause;
-            if(cause instanceof SQLException) throw (SQLException)cause;
-            throw e;
-        }
+    public WrappedRootNode login(Locale locale, String username, String password) throws RemoteException, IOException, SQLException {
+        return wrapRootNode(getWrapped().login(locale, username, password));
     }
     // </editor-fold>
 
