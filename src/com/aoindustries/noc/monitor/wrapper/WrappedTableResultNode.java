@@ -29,7 +29,7 @@ public class WrappedTableResultNode extends WrappedNode implements TableResultNo
             new Callable<Void>() {
                 @Override
                 public Void call() throws RemoteException {
-                    wrapped.addTableResultListener(tableResultListener);
+                    wrapped.addTableResultListener(monitor.wrapTableResultListener(tableResultListener));
                     return null;
                 }
             }
@@ -42,7 +42,7 @@ public class WrappedTableResultNode extends WrappedNode implements TableResultNo
             new Callable<Void>() {
                 @Override
                 public Void call() throws RemoteException {
-                    wrapped.removeTableResultListener(tableResultListener);
+                    wrapped.removeTableResultListener(monitor.wrapTableResultListener(tableResultListener));
                     return null;
                 }
             }

@@ -31,7 +31,7 @@ public class WrappedRootNode extends WrappedNode implements RootNode {
             new Callable<Void>() {
                 @Override
                 public Void call() throws RemoteException {
-                    wrapped.addTreeListener(treeListener);
+                    wrapped.addTreeListener(monitor.wrapTreeListener(treeListener));
                     return null;
                 }
             }
@@ -44,7 +44,7 @@ public class WrappedRootNode extends WrappedNode implements RootNode {
             new Callable<Void>() {
                 @Override
                 public Void call() throws RemoteException {
-                    wrapped.removeTreeListener(treeListener);
+                    wrapped.removeTreeListener(monitor.wrapTreeListener(treeListener));
                     return null;
                 }
             }

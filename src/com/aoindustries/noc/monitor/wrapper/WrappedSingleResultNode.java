@@ -29,7 +29,7 @@ public class WrappedSingleResultNode extends WrappedNode implements SingleResult
             new Callable<Void>() {
                 @Override
                 public Void call() throws RemoteException {
-                    wrapped.addSingleResultListener(singleResultListener);
+                    wrapped.addSingleResultListener(monitor.wrapSingleResultListener(singleResultListener));
                     return null;
                 }
             }
@@ -42,7 +42,7 @@ public class WrappedSingleResultNode extends WrappedNode implements SingleResult
             new Callable<Void>() {
                 @Override
                 public Void call() throws RemoteException {
-                    wrapped.removeSingleResultListener(singleResultListener);
+                    wrapped.removeSingleResultListener(monitor.wrapSingleResultListener(singleResultListener));
                     return null;
                 }
             }

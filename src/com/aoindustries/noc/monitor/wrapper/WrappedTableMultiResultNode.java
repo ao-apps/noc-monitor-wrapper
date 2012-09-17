@@ -30,7 +30,7 @@ public class WrappedTableMultiResultNode<R extends TableMultiResult> extends Wra
             new Callable<Void>() {
                 @Override
                 public Void call() throws RemoteException {
-                    wrapped.addTableMultiResultListener(tableMultiResultListener);
+                    wrapped.addTableMultiResultListener(monitor.wrapTableMultiResultListener(tableMultiResultListener));
                     return null;
                 }
             }
@@ -43,7 +43,7 @@ public class WrappedTableMultiResultNode<R extends TableMultiResult> extends Wra
             new Callable<Void>() {
                 @Override
                 public Void call() throws RemoteException {
-                    wrapped.removeTableMultiResultListener(tableMultiResultListener);
+                    wrapped.removeTableMultiResultListener(monitor.wrapTableMultiResultListener(tableMultiResultListener));
                     return null;
                 }
             }
