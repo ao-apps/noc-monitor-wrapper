@@ -22,12 +22,15 @@ import java.rmi.RemoteException;
 import java.sql.SQLException;
 import java.util.Locale;
 import java.util.Map;
+import java.util.UUID;
 import java.util.WeakHashMap;
 
 /**
  * Wraps a monitor, completely hiding both the monitor from the caller and the callbacks from the monitor.
  * Also provides the basic mechanism for disconnect and reconnect.
  * Provides factory methods to create specialized wrappers or otherwise alter the default wrappers.
+ *
+ * TODO: UUID's for listeners, too
  *
  * @author  AO Industries, Inc.
  */
@@ -103,7 +106,7 @@ public class WrappedMonitor implements Monitor {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Node">
-    private final Map<IdentityKey<Node>,WrappedNode> nodeCache = new WeakHashMap<IdentityKey<Node>,WrappedNode>();
+    private final Map<UUID,WrappedNode> nodeCache = new WeakHashMap<UUID,WrappedNode>();
 
     final WrappedNode wrapNode(Node node) throws RemoteException {
         if(node instanceof SingleResultNode) {
@@ -119,12 +122,12 @@ public class WrappedMonitor implements Monitor {
                 WrappedNode wrapper = (WrappedNode)node;
                 if(wrapper.monitor==this) return wrapper;
             }
-            IdentityKey<Node> key = new IdentityKey<Node>(node);
+            UUID uuid = node.getUuid();
             synchronized(nodeCache) {
-                WrappedNode wrapper = nodeCache.get(key);
+                WrappedNode wrapper = nodeCache.get(uuid);
                 if(wrapper==null) {
                     wrapper = newWrappedNode(node);
-                    nodeCache.put(key, wrapper);
+                    nodeCache.put(uuid, wrapper);
                 }
                 return wrapper;
             }
@@ -137,19 +140,19 @@ public class WrappedMonitor implements Monitor {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="RootNode">
-    private final Map<IdentityKey<RootNode>,WrappedRootNode> rootNodeCache = new WeakHashMap<IdentityKey<RootNode>,WrappedRootNode>();
+    private final Map<UUID,WrappedRootNode> rootNodeCache = new WeakHashMap<UUID,WrappedRootNode>();
 
     final WrappedRootNode wrapRootNode(RootNode node) throws RemoteException {
         if(node instanceof WrappedRootNode) {
             WrappedRootNode wrapper = (WrappedRootNode)node;
             if(wrapper.monitor==this) return wrapper;
         }
-        IdentityKey<RootNode> key = new IdentityKey<RootNode>(node);
+        UUID uuid = node.getUuid();
         synchronized(rootNodeCache) {
-            WrappedRootNode wrapper = rootNodeCache.get(key);
+            WrappedRootNode wrapper = rootNodeCache.get(uuid);
             if(wrapper==null) {
                 wrapper = newWrappedRootNode(node);
-                rootNodeCache.put(key, wrapper);
+                rootNodeCache.put(uuid, wrapper);
             }
             return wrapper;
         }
@@ -161,19 +164,19 @@ public class WrappedMonitor implements Monitor {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="SingleResultNode">
-    private final Map<IdentityKey<SingleResultNode>,WrappedSingleResultNode> singleResultNodeCache = new WeakHashMap<IdentityKey<SingleResultNode>,WrappedSingleResultNode>();
+    private final Map<UUID,WrappedSingleResultNode> singleResultNodeCache = new WeakHashMap<UUID,WrappedSingleResultNode>();
 
     final WrappedSingleResultNode wrapSingleResultNode(SingleResultNode node) throws RemoteException {
         if(node instanceof WrappedSingleResultNode) {
             WrappedSingleResultNode wrapper = (WrappedSingleResultNode)node;
             if(wrapper.monitor==this) return wrapper;
         }
-        IdentityKey<SingleResultNode> key = new IdentityKey<SingleResultNode>(node);
+        UUID uuid = node.getUuid();
         synchronized(singleResultNodeCache) {
-            WrappedSingleResultNode wrapper = singleResultNodeCache.get(key);
+            WrappedSingleResultNode wrapper = singleResultNodeCache.get(uuid);
             if(wrapper==null) {
                 wrapper = newWrappedSingleResultNode(node);
-                singleResultNodeCache.put(key, wrapper);
+                singleResultNodeCache.put(uuid, wrapper);
             }
             return wrapper;
         }
@@ -186,7 +189,7 @@ public class WrappedMonitor implements Monitor {
 
     // <editor-fold defaultstate="collapsed" desc="TableMultiResultNode">
     @SuppressWarnings("rawtypes")
-    private final Map<IdentityKey<TableMultiResultNode>,WrappedTableMultiResultNode> tableMultiResultNodeCache = new WeakHashMap<IdentityKey<TableMultiResultNode>,WrappedTableMultiResultNode>();
+    private final Map<UUID,WrappedTableMultiResultNode> tableMultiResultNodeCache = new WeakHashMap<UUID,WrappedTableMultiResultNode>();
 
     @SuppressWarnings({"unchecked","rawtypes"})
     final <R extends TableMultiResult> WrappedTableMultiResultNode<R> wrapTableMultiResultNode(TableMultiResultNode<R> node) throws RemoteException {
@@ -194,12 +197,12 @@ public class WrappedMonitor implements Monitor {
             WrappedTableMultiResultNode<R> wrapper = (WrappedTableMultiResultNode<R>)node;
             if(wrapper.monitor==this) return wrapper;
         }
-        IdentityKey<TableMultiResultNode> key = new IdentityKey<TableMultiResultNode>(node);
+        UUID uuid = node.getUuid();
         synchronized(tableMultiResultNodeCache) {
-            WrappedTableMultiResultNode<R> wrapper = tableMultiResultNodeCache.get(key);
+            WrappedTableMultiResultNode<R> wrapper = tableMultiResultNodeCache.get(uuid);
             if(wrapper==null) {
                 wrapper = newWrappedTableMultiResultNode(node);
-                tableMultiResultNodeCache.put(key, wrapper);
+                tableMultiResultNodeCache.put(uuid, wrapper);
             }
             return wrapper;
         }
@@ -211,19 +214,19 @@ public class WrappedMonitor implements Monitor {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="TableResultNode">
-    private final Map<IdentityKey<TableResultNode>,WrappedTableResultNode> tableResultNodeCache = new WeakHashMap<IdentityKey<TableResultNode>,WrappedTableResultNode>();
+    private final Map<UUID,WrappedTableResultNode> tableResultNodeCache = new WeakHashMap<UUID,WrappedTableResultNode>();
 
     final WrappedTableResultNode wrapTableResultNode(TableResultNode node) throws RemoteException {
         if(node instanceof WrappedTableResultNode) {
             WrappedTableResultNode wrapper = (WrappedTableResultNode)node;
             if(wrapper.monitor==this) return wrapper;
         }
-        IdentityKey<TableResultNode> key = new IdentityKey<TableResultNode>(node);
+        UUID uuid = node.getUuid();
         synchronized(tableResultNodeCache) {
-            WrappedTableResultNode wrapper = tableResultNodeCache.get(key);
+            WrappedTableResultNode wrapper = tableResultNodeCache.get(uuid);
             if(wrapper==null) {
                 wrapper = newWrappedTableResultNode(node);
-                tableResultNodeCache.put(key, wrapper);
+                tableResultNodeCache.put(uuid, wrapper);
             }
             return wrapper;
         }

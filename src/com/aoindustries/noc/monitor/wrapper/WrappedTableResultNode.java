@@ -9,7 +9,6 @@ import com.aoindustries.noc.monitor.common.TableResult;
 import com.aoindustries.noc.monitor.common.TableResultListener;
 import com.aoindustries.noc.monitor.common.TableResultNode;
 import java.rmi.RemoteException;
-import java.util.concurrent.Callable;
 
 /**
  * @author  AO Industries, Inc.

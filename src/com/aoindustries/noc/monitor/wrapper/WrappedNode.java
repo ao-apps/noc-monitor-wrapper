@@ -7,10 +7,12 @@ package com.aoindustries.noc.monitor.wrapper;
 
 import com.aoindustries.noc.monitor.common.AlertLevel;
 import com.aoindustries.noc.monitor.common.Node;
+import com.aoindustries.util.WrappedException;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * @author  AO Industries, Inc.
@@ -19,10 +21,12 @@ public class WrappedNode implements Node {
 
     final WrappedMonitor monitor;
     final private Node wrapped;
+    final private UUID uuid;
 
     protected WrappedNode(WrappedMonitor monitor, Node wrapped) {
         this.monitor = monitor;
         this.wrapped = wrapped;
+        this.uuid    = UUID.randomUUID();
     }
 
     @Override
@@ -65,26 +69,37 @@ public class WrappedNode implements Node {
     public String getLabel() throws RemoteException {
         return wrapped.getLabel();
     }
-    
+
+    /**
+     * After wrapping, the wrapped node gets a new UUID.
+     */
     @Override
-    public boolean equals(Object O) {
-        if(O==null) return false;
-        if(!(O instanceof Node)) return false;
+    public UUID getUuid() throws RemoteException {
+        return uuid;
+    }
 
-        // Unwrap this
-        Node thisNode = WrappedNode.this;
-        while(thisNode instanceof WrappedNode) thisNode = ((WrappedNode)thisNode).wrapped;
-
-        // Unwrap other
-        Node otherNode = (Node)O;
-        while(otherNode instanceof WrappedNode) otherNode = ((WrappedNode)otherNode).wrapped;
-
-        // Check equals
-        return thisNode.equals(otherNode);
+    @Override
+    public boolean equals(Object obj) {
+        if(!(obj instanceof Node)) return false;
+        Node other = (Node)obj;
+        try {
+            return uuid.equals(other.getUuid());
+        } catch(RemoteException err) {
+            throw new WrappedException(err);
+        }
     }
 
     @Override
     public int hashCode() {
-        return wrapped.hashCode();
+        return uuid.hashCode();
+    }
+
+    @Override
+    public String toString() {
+        try {
+            return getLabel();
+        } catch(RemoteException err) {
+            throw new WrappedException(err);
+        }
     }
 }
