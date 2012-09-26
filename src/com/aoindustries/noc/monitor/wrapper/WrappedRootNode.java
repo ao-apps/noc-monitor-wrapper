@@ -45,7 +45,7 @@ public class WrappedRootNode extends WrappedNode implements RootNode {
     /**
      * Recursively wraps the nodes of the snapshot.
      */
-    private static NodeSnapshot wrapSnapshot(WrappedMonitor monitor, NodeSnapshot snapshot) throws RemoteException {
+    private static NodeSnapshot wrapSnapshot(final WrappedMonitor monitor, final NodeSnapshot snapshot) throws RemoteException {
         List<NodeSnapshot> newChildren;
         {
             List<NodeSnapshot> children = snapshot.getChildren();
@@ -62,7 +62,7 @@ public class WrappedRootNode extends WrappedNode implements RootNode {
             }
         }
         return new NodeSnapshot(
-            monitor.wrapNode(snapshot.getNode()),
+            monitor.wrapNode(snapshot.getNode(), snapshot.getUuid()),
             newChildren,
             snapshot.getAlertLevel(),
             snapshot.getAlertMessage(),

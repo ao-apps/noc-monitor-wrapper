@@ -6,6 +6,7 @@
 package com.aoindustries.noc.monitor.wrapper;
 
 import com.aoindustries.noc.monitor.common.AlertLevelChange;
+import com.aoindustries.noc.monitor.common.Node;
 import com.aoindustries.noc.monitor.common.TreeListener;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
@@ -39,7 +40,8 @@ public class WrappedTreeListener implements TreeListener {
     public void nodeAlertLevelChanged(List<AlertLevelChange> changes) throws RemoteException {
         List<AlertLevelChange> wrappedChanges = new ArrayList<AlertLevelChange>(changes.size());
         for(AlertLevelChange change : changes) {
-            wrappedChanges.add(change.setNode(monitor.wrapNode(change.getNode())));
+            Node node = change.getNode();
+            wrappedChanges.add(change.setNode(monitor.wrapNode(node, node.getUuid())));
         }
         wrappedChanges = Collections.unmodifiableList(wrappedChanges);
         wrapped.nodeAlertLevelChanged(wrappedChanges);

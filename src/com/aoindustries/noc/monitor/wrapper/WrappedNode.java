@@ -31,7 +31,8 @@ public class WrappedNode implements Node {
 
     @Override
     public WrappedNode getParent() throws RemoteException {
-        return monitor.wrapNode(wrapped.getParent());
+        Node wrappedParent = wrapped.getParent();
+        return monitor.wrapNode(wrappedParent, wrappedParent.getUuid());
     }
 
     @Override
@@ -40,7 +41,7 @@ public class WrappedNode implements Node {
         // Wrap
         List<WrappedNode> localWrapped = new ArrayList<WrappedNode>(children.size());
         for(Node child : children) {
-            localWrapped.add(monitor.wrapNode(child));
+            localWrapped.add(monitor.wrapNode(child, child.getUuid()));
         }
         return Collections.unmodifiableList(localWrapped);
     }
