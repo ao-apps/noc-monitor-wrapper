@@ -10,6 +10,9 @@ import com.aoindustries.noc.monitor.common.NodeSnapshot;
 import com.aoindustries.noc.monitor.common.RootNode;
 import com.aoindustries.noc.monitor.common.TreeListener;
 import java.rmi.RemoteException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.SortedSet;
 
 /**
@@ -36,17 +39,38 @@ public class WrappedRootNode extends WrappedNode implements RootNode {
 
     @Override
     public NodeSnapshot getSnapshot() throws RemoteException {
-        NodeSnapshot nodeSnapshot = wrapped.getSnapshot();
-        wrapSnapshot(monitor, nodeSnapshot);
-        return nodeSnapshot;
+        return wrapSnapshot(monitor, wrapped.getSnapshot());
     }
 
     /**
      * Recursively wraps the nodes of the snapshot.
      */
-    private static void wrapSnapshot(WrappedMonitor monitor, NodeSnapshot snapshot) throws RemoteException {
-        snapshot.setNode(monitor.wrapNode(snapshot.getNode()));
-        for(NodeSnapshot child : snapshot.getChildren()) wrapSnapshot(monitor, child);
+    private static NodeSnapshot wrapSnapshot(WrappedMonitor monitor, NodeSnapshot snapshot) throws RemoteException {
+        List<NodeSnapshot> newChildren;
+        {
+            List<NodeSnapshot> children = snapshot.getChildren();
+            int size = children.size();
+            if(size==0) {
+                newChildren = Collections.emptyList();
+            } else if(size==1) {
+                newChildren = Collections.singletonList(wrapSnapshot(monitor, children.get(0)));
+            } else {
+                newChildren = new ArrayList<NodeSnapshot>(size);
+                for(NodeSnapshot child : children) {
+                    newChildren.add(wrapSnapshot(monitor, child));
+                }
+            }
+        }
+        return new NodeSnapshot(
+            monitor.wrapNode(snapshot.getNode()),
+            newChildren,
+            snapshot.getAlertLevel(),
+            snapshot.getAlertMessage(),
+            snapshot.getAllowsChildren(),
+            snapshot.getId(),
+            snapshot.getLabel(),
+            snapshot.getUuid()
+        );
     }
 
     @Override
