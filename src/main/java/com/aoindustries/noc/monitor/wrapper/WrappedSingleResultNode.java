@@ -1,5 +1,5 @@
 /*
- * Copyright 2012 by AO Industries, Inc.,
+ * Copyright 2012, 2020 by AO Industries, Inc.,
  * 7262 Bull Pen Cir, Mobile, Alabama, 36695, U.S.A.
  * All rights reserved.
  */
@@ -15,25 +15,25 @@ import java.rmi.RemoteException;
  */
 public class WrappedSingleResultNode extends WrappedNode implements SingleResultNode {
 
-    final private SingleResultNode wrapped;
+	final private SingleResultNode wrapped;
 
-    protected WrappedSingleResultNode(WrappedMonitor monitor, SingleResultNode wrapped) {
-        super(monitor, wrapped);
-        this.wrapped = wrapped;
-    }
+	protected WrappedSingleResultNode(WrappedMonitor monitor, SingleResultNode wrapped) {
+		super(monitor, wrapped);
+		this.wrapped = wrapped;
+	}
 
-    @Override
-    public void addSingleResultListener(SingleResultListener singleResultListener) throws RemoteException {
-        wrapped.addSingleResultListener(monitor.wrapSingleResultListener(singleResultListener));
-    }
+	@Override
+	public void addSingleResultListener(SingleResultListener singleResultListener) throws RemoteException {
+		wrapped.addSingleResultListener(monitor.wrapSingleResultListener(singleResultListener));
+	}
 
-    @Override
-    public void removeSingleResultListener(SingleResultListener singleResultListener) throws RemoteException {
-        wrapped.removeSingleResultListener(monitor.wrapSingleResultListener(singleResultListener));
-    }
+	@Override
+	public void removeSingleResultListener(SingleResultListener singleResultListener) throws RemoteException {
+		wrapped.removeSingleResultListener(monitor.wrapSingleResultListener(singleResultListener));
+	}
 
-    @Override
-    public SingleResult getLastResult() throws RemoteException {
-        return wrapped.getLastResult();
-    }
+	@Override
+	public SingleResult getLastResult() throws RemoteException {
+		return wrapped.getLastResult();
+	}
 }

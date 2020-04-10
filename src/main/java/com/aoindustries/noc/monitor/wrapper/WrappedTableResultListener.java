@@ -1,5 +1,5 @@
 /*
- * Copyright 2012 by AO Industries, Inc.,
+ * Copyright 2012, 2020 by AO Industries, Inc.,
  * 7262 Bull Pen Cir, Mobile, Alabama, 36695, U.S.A.
  * All rights reserved.
  */
@@ -14,38 +14,38 @@ import java.rmi.RemoteException;
  */
 public class WrappedTableResultListener implements TableResultListener {
 
-    final WrappedMonitor monitor;
-    final private TableResultListener wrapped;
+	final WrappedMonitor monitor;
+	final private TableResultListener wrapped;
 
-    protected WrappedTableResultListener(WrappedMonitor monitor, TableResultListener wrapped) {
-        this.monitor = monitor;
-        this.wrapped = wrapped;
-    }
+	protected WrappedTableResultListener(WrappedMonitor monitor, TableResultListener wrapped) {
+		this.monitor = monitor;
+		this.wrapped = wrapped;
+	}
 
-    @Override
-    public void tableResultUpdated(TableResult tableResult) throws RemoteException {
-        wrapped.tableResultUpdated(tableResult);
-    }
+	@Override
+	public void tableResultUpdated(TableResult tableResult) throws RemoteException {
+		wrapped.tableResultUpdated(tableResult);
+	}
 
-    @Override
-    public boolean equals(Object O) {
-        if(O==null) return false;
-        if(!(O instanceof TableResultListener)) return false;
+	@Override
+	public boolean equals(Object O) {
+		if(O==null) return false;
+		if(!(O instanceof TableResultListener)) return false;
 
-        // Unwrap this
-        TableResultListener thisTableResultListener = WrappedTableResultListener.this;
-        while(thisTableResultListener instanceof WrappedTableResultListener) thisTableResultListener = ((WrappedTableResultListener)thisTableResultListener).wrapped;
+		// Unwrap this
+		TableResultListener thisTableResultListener = WrappedTableResultListener.this;
+		while(thisTableResultListener instanceof WrappedTableResultListener) thisTableResultListener = ((WrappedTableResultListener)thisTableResultListener).wrapped;
 
-        // Unwrap other
-        TableResultListener otherTableResultListener = (TableResultListener)O;
-        while(otherTableResultListener instanceof WrappedTableResultListener) otherTableResultListener = ((WrappedTableResultListener)otherTableResultListener).wrapped;
+		// Unwrap other
+		TableResultListener otherTableResultListener = (TableResultListener)O;
+		while(otherTableResultListener instanceof WrappedTableResultListener) otherTableResultListener = ((WrappedTableResultListener)otherTableResultListener).wrapped;
 
-        // Check equals
-        return thisTableResultListener.equals(otherTableResultListener);
-    }
+		// Check equals
+		return thisTableResultListener.equals(otherTableResultListener);
+	}
 
-    @Override
-    public int hashCode() {
-        return wrapped.hashCode();
-    }
+	@Override
+	public int hashCode() {
+		return wrapped.hashCode();
+	}
 }

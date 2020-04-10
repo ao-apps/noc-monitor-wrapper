@@ -1,5 +1,5 @@
 /*
- * Copyright 2012 by AO Industries, Inc.,
+ * Copyright 2012, 2020 by AO Industries, Inc.,
  * 7262 Bull Pen Cir, Mobile, Alabama, 36695, U.S.A.
  * All rights reserved.
  */
@@ -14,38 +14,38 @@ import java.rmi.RemoteException;
  */
 public class WrappedSingleResultListener implements SingleResultListener {
 
-    final WrappedMonitor monitor;
-    final private SingleResultListener wrapped;
+	final WrappedMonitor monitor;
+	final private SingleResultListener wrapped;
 
-    protected WrappedSingleResultListener(WrappedMonitor monitor, SingleResultListener wrapped) {
-        this.monitor = monitor;
-        this.wrapped = wrapped;
-    }
+	protected WrappedSingleResultListener(WrappedMonitor monitor, SingleResultListener wrapped) {
+		this.monitor = monitor;
+		this.wrapped = wrapped;
+	}
 
-    @Override
-    public void singleResultUpdated(SingleResult singleResult) throws RemoteException {
-        wrapped.singleResultUpdated(singleResult);
-    }
+	@Override
+	public void singleResultUpdated(SingleResult singleResult) throws RemoteException {
+		wrapped.singleResultUpdated(singleResult);
+	}
 
-    @Override
-    public boolean equals(Object O) {
-        if(O==null) return false;
-        if(!(O instanceof SingleResultListener)) return false;
+	@Override
+	public boolean equals(Object O) {
+		if(O==null) return false;
+		if(!(O instanceof SingleResultListener)) return false;
 
-        // Unwrap this
-        SingleResultListener thisSingleResultListener = WrappedSingleResultListener.this;
-        while(thisSingleResultListener instanceof WrappedSingleResultListener) thisSingleResultListener = ((WrappedSingleResultListener)thisSingleResultListener).wrapped;
+		// Unwrap this
+		SingleResultListener thisSingleResultListener = WrappedSingleResultListener.this;
+		while(thisSingleResultListener instanceof WrappedSingleResultListener) thisSingleResultListener = ((WrappedSingleResultListener)thisSingleResultListener).wrapped;
 
-        // Unwrap other
-        SingleResultListener otherSingleResultListener = (SingleResultListener)O;
-        while(otherSingleResultListener instanceof WrappedSingleResultListener) otherSingleResultListener = ((WrappedSingleResultListener)otherSingleResultListener).wrapped;
+		// Unwrap other
+		SingleResultListener otherSingleResultListener = (SingleResultListener)O;
+		while(otherSingleResultListener instanceof WrappedSingleResultListener) otherSingleResultListener = ((WrappedSingleResultListener)otherSingleResultListener).wrapped;
 
-        // Check equals
-        return thisSingleResultListener.equals(otherSingleResultListener);
-    }
+		// Check equals
+		return thisSingleResultListener.equals(otherSingleResultListener);
+	}
 
-    @Override
-    public int hashCode() {
-        return wrapped.hashCode();
-    }
+	@Override
+	public int hashCode() {
+		return wrapped.hashCode();
+	}
 }
