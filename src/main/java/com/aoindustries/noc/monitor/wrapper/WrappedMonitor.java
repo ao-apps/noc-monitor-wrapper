@@ -1,7 +1,24 @@
 /*
- * Copyright 2012, 2020 by AO Industries, Inc.,
- * 7262 Bull Pen Cir, Mobile, Alabama, 36695, U.S.A.
- * All rights reserved.
+ * noc-monitor-wrapper - Base support for wrappers of Monitoring API.
+ * Copyright (C) 2012, 2020  AO Industries, Inc.
+ *     support@aoindustries.com
+ *     7262 Bull Pen Cir
+ *     Mobile, AL 36695
+ *
+ * This file is part of noc-monitor-wrapper.
+ *
+ * noc-monitor-wrapper is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * noc-monitor-wrapper is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with noc-monitor-wrapper.  If not, see <http://www.gnu.org/licenses/>.
  */
 package com.aoindustries.noc.monitor.wrapper;
 
