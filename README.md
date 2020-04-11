@@ -21,12 +21,12 @@
 	</a>
 </p>
 
-Base support for wrappers of [Monitoring API](https://aoindustries.com/noc-monitor-api/).
+Base support for wrappers of [Monitoring API](https://github.com/aoindustries/noc-monitor-api).
 
 ## Project Links
-* [Project Home](https://aoindustries.com/noc-monitor-wrapper/)
-* [Changelog](https://aoindustries.com/noc-monitor-wrapper/changelog)
-* [API Docs](https://aoindustries.com/noc-monitor-wrapper/apidocs/)
+* [Project Home](https://aoindustries.com/noc/monitor/wrapper/)
+* [Changelog](https://aoindustries.com/noc/monitor/wrapper/changelog)
+* [API Docs](https://aoindustries.com/noc/monitor/wrapper/apidocs/)
 * [Maven Central Repository](https://search.maven.org/artifact/com.aoindustries/noc-monitor-wrapper)
 * [GitHub](https://github.com/aoindustries/noc-monitor-wrapper)
 
