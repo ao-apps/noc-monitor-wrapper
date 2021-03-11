@@ -1,6 +1,6 @@
 /*
  * noc-monitor-wrapper - Base support for wrappers of Monitoring API.
- * Copyright (C) 2012, 2020  AO Industries, Inc.
+ * Copyright (C) 2012, 2020, 2021  AO Industries, Inc.
  *     support@aoindustries.com
  *     7262 Bull Pen Cir
  *     Mobile, AL 36695
@@ -124,7 +124,7 @@ public class WrappedMonitor implements Monitor {
 	// </editor-fold>
 
 	// <editor-fold defaultstate="collapsed" desc="Node">
-	private final Map<UUID,WrappedNode> nodeCache = new WeakHashMap<UUID,WrappedNode>();
+	private final Map<UUID, WrappedNode> nodeCache = new WeakHashMap<>();
 
 	final WrappedNode wrapNode(Node node, UUID uuid) throws RemoteException {
 		if(node instanceof SingleResultNode) {
@@ -158,7 +158,7 @@ public class WrappedMonitor implements Monitor {
 	// </editor-fold>
 
 	// <editor-fold defaultstate="collapsed" desc="RootNode">
-	private final Map<UUID,WrappedRootNode> rootNodeCache = new WeakHashMap<UUID,WrappedRootNode>();
+	private final Map<UUID, WrappedRootNode> rootNodeCache = new WeakHashMap<>();
 
 	final WrappedRootNode wrapRootNode(RootNode node, UUID uuid) throws RemoteException {
 		if(node instanceof WrappedRootNode) {
@@ -182,7 +182,7 @@ public class WrappedMonitor implements Monitor {
 	// </editor-fold>
 
 	// <editor-fold defaultstate="collapsed" desc="SingleResultNode">
-	private final Map<UUID,WrappedSingleResultNode> singleResultNodeCache = new WeakHashMap<UUID,WrappedSingleResultNode>();
+	private final Map<UUID, WrappedSingleResultNode> singleResultNodeCache = new WeakHashMap<>();
 
 	final WrappedSingleResultNode wrapSingleResultNode(SingleResultNode node, UUID uuid) throws RemoteException {
 		if(node instanceof WrappedSingleResultNode) {
@@ -207,7 +207,7 @@ public class WrappedMonitor implements Monitor {
 
 	// <editor-fold defaultstate="collapsed" desc="TableMultiResultNode">
 	@SuppressWarnings("rawtypes")
-	private final Map<UUID,WrappedTableMultiResultNode> tableMultiResultNodeCache = new WeakHashMap<UUID,WrappedTableMultiResultNode>();
+	private final Map<UUID, WrappedTableMultiResultNode> tableMultiResultNodeCache = new WeakHashMap<>();
 
 	@SuppressWarnings({"unchecked","rawtypes"})
 	final <R extends TableMultiResult> WrappedTableMultiResultNode<R> wrapTableMultiResultNode(TableMultiResultNode<R> node, UUID uuid) throws RemoteException {
@@ -232,7 +232,7 @@ public class WrappedMonitor implements Monitor {
 	// </editor-fold>
 
 	// <editor-fold defaultstate="collapsed" desc="TableResultNode">
-	private final Map<UUID,WrappedTableResultNode> tableResultNodeCache = new WeakHashMap<UUID,WrappedTableResultNode>();
+	private final Map<UUID, WrappedTableResultNode> tableResultNodeCache = new WeakHashMap<>();
 
 	final WrappedTableResultNode wrapTableResultNode(TableResultNode node, UUID uuid) throws RemoteException {
 		if(node instanceof WrappedTableResultNode) {
@@ -256,7 +256,7 @@ public class WrappedMonitor implements Monitor {
 	// </editor-fold>
 
 	// <editor-fold defaultstate="collapsed" desc="TreeListener">
-	private final Map<IdentityKey<TreeListener>,WrappedTreeListener> treeListenerCache = new WeakHashMap<IdentityKey<TreeListener>,WrappedTreeListener>();
+	private final Map<IdentityKey<TreeListener>, WrappedTreeListener> treeListenerCache = new WeakHashMap<>();
 
 	final WrappedTreeListener wrapTreeListener(TreeListener treeListener) throws RemoteException {
 		if(treeListener instanceof WrappedTreeListener) {
@@ -280,7 +280,7 @@ public class WrappedMonitor implements Monitor {
 	// </editor-fold>
 
 	// <editor-fold defaultstate="collapsed" desc="SingleResultListener">
-	private final Map<IdentityKey<SingleResultListener>,WrappedSingleResultListener> singleResultListenerCache = new WeakHashMap<IdentityKey<SingleResultListener>,WrappedSingleResultListener>();
+	private final Map<IdentityKey<SingleResultListener>, WrappedSingleResultListener> singleResultListenerCache = new WeakHashMap<>();
 
 	final WrappedSingleResultListener wrapSingleResultListener(SingleResultListener singleResultListener) throws RemoteException {
 		if(singleResultListener instanceof WrappedSingleResultListener) {
@@ -305,7 +305,7 @@ public class WrappedMonitor implements Monitor {
 
 	// <editor-fold defaultstate="collapsed" desc="TableMultiResultListener">
 	@SuppressWarnings("rawtypes")
-	private final Map<IdentityKey<TableMultiResultListener>,WrappedTableMultiResultListener> tableMultiResultListenerCache = new WeakHashMap<IdentityKey<TableMultiResultListener>,WrappedTableMultiResultListener>();
+	private final Map<IdentityKey<TableMultiResultListener>, WrappedTableMultiResultListener> tableMultiResultListenerCache = new WeakHashMap<>();
 
 	@SuppressWarnings({"unchecked","rawtypes"})
 	final <R extends TableMultiResult> WrappedTableMultiResultListener<R> wrapTableMultiResultListener(TableMultiResultListener<R> tableMultiResultListener) throws RemoteException {
@@ -330,7 +330,7 @@ public class WrappedMonitor implements Monitor {
 	// </editor-fold>
 
 	// <editor-fold defaultstate="collapsed" desc="TableResultListener">
-	private final Map<IdentityKey<TableResultListener>,WrappedTableResultListener> tableResultListenerCache = new WeakHashMap<IdentityKey<TableResultListener>,WrappedTableResultListener>();
+	private final Map<IdentityKey<TableResultListener>, WrappedTableResultListener> tableResultListenerCache = new WeakHashMap<>();
 
 	final WrappedTableResultListener wrapTableResultListener(TableResultListener tableResultListener) throws RemoteException {
 		if(tableResultListener instanceof WrappedTableResultListener) {
