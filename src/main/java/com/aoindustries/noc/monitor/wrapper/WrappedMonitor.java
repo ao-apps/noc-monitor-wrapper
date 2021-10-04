@@ -78,7 +78,7 @@ public class WrappedMonitor implements Monitor {
 	 * @see #getWrapped()
 	 * @see #connect()
 	 */
-	final protected void disconnect() throws RemoteException {
+	protected final void disconnect() throws RemoteException {
 		synchronized(connectionLock) {
 			wrapped = null;
 		}
@@ -90,7 +90,7 @@ public class WrappedMonitor implements Monitor {
 	 * @see #disconnect()
 	 * @see #connect()
 	 */
-	final protected Monitor getWrapped() throws RemoteException {
+	protected final Monitor getWrapped() throws RemoteException {
 		synchronized(connectionLock) {
 			// (Re)connects to the wrapped factory
 			if(wrapped==null) wrapped = connect();

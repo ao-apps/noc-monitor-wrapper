@@ -1,6 +1,6 @@
 /*
  * noc-monitor-wrapper - Base support for wrappers of Monitoring API.
- * Copyright (C) 2012, 2020  AO Industries, Inc.
+ * Copyright (C) 2012, 2020, 2021  AO Industries, Inc.
  *     support@aoindustries.com
  *     7262 Bull Pen Cir
  *     Mobile, AL 36695
@@ -36,7 +36,7 @@ import java.util.List;
 public class WrappedTreeListener implements TreeListener {
 
 	final WrappedMonitor monitor;
-	final private TreeListener wrapped;
+	private final TreeListener wrapped;
 
 	protected WrappedTreeListener(WrappedMonitor monitor, TreeListener wrapped) {
 		this.monitor = monitor;

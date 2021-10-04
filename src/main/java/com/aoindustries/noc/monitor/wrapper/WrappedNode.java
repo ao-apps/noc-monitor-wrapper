@@ -1,6 +1,6 @@
 /*
  * noc-monitor-wrapper - Base support for wrappers of Monitoring API.
- * Copyright (C) 2012, 2020  AO Industries, Inc.
+ * Copyright (C) 2012, 2020, 2021  AO Industries, Inc.
  *     support@aoindustries.com
  *     7262 Bull Pen Cir
  *     Mobile, AL 36695
@@ -37,8 +37,8 @@ import java.util.UUID;
 public class WrappedNode implements Node {
 
 	final WrappedMonitor monitor;
-	final private Node wrapped;
-	final private UUID uuid;
+	private final Node wrapped;
+	private final UUID uuid;
 
 	protected WrappedNode(WrappedMonitor monitor, Node wrapped) {
 		this.monitor = monitor;

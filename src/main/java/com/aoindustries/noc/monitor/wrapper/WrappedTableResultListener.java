@@ -1,6 +1,6 @@
 /*
  * noc-monitor-wrapper - Base support for wrappers of Monitoring API.
- * Copyright (C) 2012, 2020  AO Industries, Inc.
+ * Copyright (C) 2012, 2020, 2021  AO Industries, Inc.
  *     support@aoindustries.com
  *     7262 Bull Pen Cir
  *     Mobile, AL 36695
@@ -32,7 +32,7 @@ import java.rmi.RemoteException;
 public class WrappedTableResultListener implements TableResultListener {
 
 	final WrappedMonitor monitor;
-	final private TableResultListener wrapped;
+	private final TableResultListener wrapped;
 
 	protected WrappedTableResultListener(WrappedMonitor monitor, TableResultListener wrapped) {
 		this.monitor = monitor;
