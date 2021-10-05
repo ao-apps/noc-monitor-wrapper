@@ -209,7 +209,7 @@ public class WrappedMonitor implements Monitor {
 	@SuppressWarnings("rawtypes")
 	private final Map<UUID, WrappedTableMultiResultNode> tableMultiResultNodeCache = new WeakHashMap<>();
 
-	@SuppressWarnings({"unchecked","rawtypes"})
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	final <R extends TableMultiResult> WrappedTableMultiResultNode<R> wrapTableMultiResultNode(TableMultiResultNode<R> node, UUID uuid) throws RemoteException {
 		if(node instanceof WrappedTableMultiResultNode<?>) {
 			WrappedTableMultiResultNode<R> wrapper = (WrappedTableMultiResultNode<R>)node;
@@ -307,7 +307,7 @@ public class WrappedMonitor implements Monitor {
 	@SuppressWarnings("rawtypes")
 	private final Map<IdentityKey<TableMultiResultListener>, WrappedTableMultiResultListener> tableMultiResultListenerCache = new WeakHashMap<>();
 
-	@SuppressWarnings({"unchecked","rawtypes"})
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	final <R extends TableMultiResult> WrappedTableMultiResultListener<R> wrapTableMultiResultListener(TableMultiResultListener<R> tableMultiResultListener) throws RemoteException {
 		if(tableMultiResultListener instanceof WrappedTableMultiResultListener<?>) {
 			WrappedTableMultiResultListener<R> wrapper = (WrappedTableMultiResultListener<R>)tableMultiResultListener;
