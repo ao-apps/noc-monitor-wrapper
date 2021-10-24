@@ -50,16 +50,15 @@ public class WrappedTableMultiResultListener<R extends TableMultiResult> impleme
 	}
 
 	@Override
-	public boolean equals(Object O) {
-		if(O==null) return false;
-		if(!(O instanceof TableMultiResultListener<?>)) return false;
+	public boolean equals(Object obj) {
+		if(!(obj instanceof TableMultiResultListener<?>)) return false;
 
 		// Unwrap this
 		TableMultiResultListener<?> thisTableMultiResultListener = WrappedTableMultiResultListener.this;
 		while(thisTableMultiResultListener instanceof WrappedTableMultiResultListener<?>) thisTableMultiResultListener = ((WrappedTableMultiResultListener<?>)thisTableMultiResultListener).wrapped;
 
 		// Unwrap other
-		TableMultiResultListener<?> otherTableMultiResultListener = (TableMultiResultListener<?>)O;
+		TableMultiResultListener<?> otherTableMultiResultListener = (TableMultiResultListener<?>)obj;
 		while(otherTableMultiResultListener instanceof WrappedTableMultiResultListener<?>) otherTableMultiResultListener = ((WrappedTableMultiResultListener<?>)otherTableMultiResultListener).wrapped;
 
 		// Check equals

@@ -45,16 +45,15 @@ public class WrappedTableResultListener implements TableResultListener {
 	}
 
 	@Override
-	public boolean equals(Object O) {
-		if(O==null) return false;
-		if(!(O instanceof TableResultListener)) return false;
+	public boolean equals(Object obj) {
+		if(!(obj instanceof TableResultListener)) return false;
 
 		// Unwrap this
 		TableResultListener thisTableResultListener = WrappedTableResultListener.this;
 		while(thisTableResultListener instanceof WrappedTableResultListener) thisTableResultListener = ((WrappedTableResultListener)thisTableResultListener).wrapped;
 
 		// Unwrap other
-		TableResultListener otherTableResultListener = (TableResultListener)O;
+		TableResultListener otherTableResultListener = (TableResultListener)obj;
 		while(otherTableResultListener instanceof WrappedTableResultListener) otherTableResultListener = ((WrappedTableResultListener)otherTableResultListener).wrapped;
 
 		// Check equals

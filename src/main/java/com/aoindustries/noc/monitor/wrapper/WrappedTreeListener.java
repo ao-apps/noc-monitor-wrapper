@@ -65,16 +65,15 @@ public class WrappedTreeListener implements TreeListener {
 	}
 
 	@Override
-	public boolean equals(Object O) {
-		if(O==null) return false;
-		if(!(O instanceof TreeListener)) return false;
+	public boolean equals(Object obj) {
+		if(!(obj instanceof TreeListener)) return false;
 
 		// Unwrap this
 		TreeListener thisTreeListener = WrappedTreeListener.this;
 		while(thisTreeListener instanceof WrappedTreeListener) thisTreeListener = ((WrappedTreeListener)thisTreeListener).wrapped;
 
 		// Unwrap other
-		TreeListener otherTreeListener = (TreeListener)O;
+		TreeListener otherTreeListener = (TreeListener)obj;
 		while(otherTreeListener instanceof WrappedTreeListener) otherTreeListener = ((WrappedTreeListener)otherTreeListener).wrapped;
 
 		// Check equals

@@ -45,16 +45,15 @@ public class WrappedSingleResultListener implements SingleResultListener {
 	}
 
 	@Override
-	public boolean equals(Object O) {
-		if(O==null) return false;
-		if(!(O instanceof SingleResultListener)) return false;
+	public boolean equals(Object obj) {
+		if(!(obj instanceof SingleResultListener)) return false;
 
 		// Unwrap this
 		SingleResultListener thisSingleResultListener = WrappedSingleResultListener.this;
 		while(thisSingleResultListener instanceof WrappedSingleResultListener) thisSingleResultListener = ((WrappedSingleResultListener)thisSingleResultListener).wrapped;
 
 		// Unwrap other
-		SingleResultListener otherSingleResultListener = (SingleResultListener)O;
+		SingleResultListener otherSingleResultListener = (SingleResultListener)obj;
 		while(otherSingleResultListener instanceof WrappedSingleResultListener) otherSingleResultListener = ((WrappedSingleResultListener)otherSingleResultListener).wrapped;
 
 		// Check equals
