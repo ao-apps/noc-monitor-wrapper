@@ -55,7 +55,7 @@ public class WrappedTreeListener implements TreeListener {
 
 	@Override
 	public void nodeAlertLevelChanged(List<AlertLevelChange> changes) throws RemoteException {
-		List<AlertLevelChange> wrappedChanges = new ArrayList<AlertLevelChange>(changes.size());
+		List<AlertLevelChange> wrappedChanges = new ArrayList<>(changes.size());
 		for(AlertLevelChange change : changes) {
 			Node node = change.getNode();
 			wrappedChanges.add(change.setNode(monitor.wrapNode(node, node.getUuid())));

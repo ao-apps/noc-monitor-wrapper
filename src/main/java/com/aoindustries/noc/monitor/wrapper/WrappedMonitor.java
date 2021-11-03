@@ -227,7 +227,7 @@ public class WrappedMonitor implements Monitor {
 	}
 
 	protected <R extends TableMultiResult> WrappedTableMultiResultNode<R> newWrappedTableMultiResultNode(TableMultiResultNode<R> node) throws RemoteException {
-		return new WrappedTableMultiResultNode<R>(this, node);
+		return new WrappedTableMultiResultNode<>(this, node);
 	}
 	// </editor-fold>
 
@@ -263,7 +263,7 @@ public class WrappedMonitor implements Monitor {
 			WrappedTreeListener wrapper = (WrappedTreeListener)treeListener;
 			if(wrapper.monitor==this) return wrapper;
 		}
-		IdentityKey<TreeListener> key = new IdentityKey<TreeListener>(treeListener);
+		IdentityKey<TreeListener> key = new IdentityKey<>(treeListener);
 		synchronized(treeListenerCache) {
 			WrappedTreeListener wrapper = treeListenerCache.get(key);
 			if(wrapper==null) {
@@ -287,7 +287,7 @@ public class WrappedMonitor implements Monitor {
 			WrappedSingleResultListener wrapper = (WrappedSingleResultListener)singleResultListener;
 			if(wrapper.monitor==this) return wrapper;
 		}
-		IdentityKey<SingleResultListener> key = new IdentityKey<SingleResultListener>(singleResultListener);
+		IdentityKey<SingleResultListener> key = new IdentityKey<>(singleResultListener);
 		synchronized(singleResultListenerCache) {
 			WrappedSingleResultListener wrapper = singleResultListenerCache.get(key);
 			if(wrapper==null) {
@@ -313,7 +313,7 @@ public class WrappedMonitor implements Monitor {
 			WrappedTableMultiResultListener<R> wrapper = (WrappedTableMultiResultListener<R>)tableMultiResultListener;
 			if(wrapper.monitor==this) return wrapper;
 		}
-		IdentityKey<TableMultiResultListener> key = new IdentityKey<TableMultiResultListener>(tableMultiResultListener);
+		IdentityKey<TableMultiResultListener> key = new IdentityKey<>(tableMultiResultListener);
 		synchronized(tableMultiResultListenerCache) {
 			WrappedTableMultiResultListener<R> wrapper = tableMultiResultListenerCache.get(key);
 			if(wrapper==null) {
@@ -325,7 +325,7 @@ public class WrappedMonitor implements Monitor {
 	}
 
 	protected <R extends TableMultiResult> WrappedTableMultiResultListener<R> newWrappedTableMultiResultListener(TableMultiResultListener<R> tableMultiResultListener) throws RemoteException {
-		return new WrappedTableMultiResultListener<R>(this, tableMultiResultListener);
+		return new WrappedTableMultiResultListener<>(this, tableMultiResultListener);
 	}
 	// </editor-fold>
 
@@ -337,7 +337,7 @@ public class WrappedMonitor implements Monitor {
 			WrappedTableResultListener wrapper = (WrappedTableResultListener)tableResultListener;
 			if(wrapper.monitor==this) return wrapper;
 		}
-		IdentityKey<TableResultListener> key = new IdentityKey<TableResultListener>(tableResultListener);
+		IdentityKey<TableResultListener> key = new IdentityKey<>(tableResultListener);
 		synchronized(tableResultListenerCache) {
 			WrappedTableResultListener wrapper = tableResultListenerCache.get(key);
 			if(wrapper==null) {

@@ -72,7 +72,7 @@ public class WrappedRootNode extends WrappedNode implements RootNode {
 			} else if(size==1) {
 				newChildren = Collections.singletonList(wrapSnapshot(monitor, children.get(0)));
 			} else {
-				newChildren = new ArrayList<NodeSnapshot>(size);
+				newChildren = new ArrayList<>(size);
 				for(NodeSnapshot child : children) {
 					newChildren.add(wrapSnapshot(monitor, child));
 				}

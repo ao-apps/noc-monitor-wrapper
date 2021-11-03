@@ -56,7 +56,7 @@ public class WrappedNode implements Node {
 	public List<? extends WrappedNode> getChildren() throws RemoteException {
 		List<? extends Node> children = wrapped.getChildren();
 		// Wrap
-		List<WrappedNode> localWrapped = new ArrayList<WrappedNode>(children.size());
+		List<WrappedNode> localWrapped = new ArrayList<>(children.size());
 		for(Node child : children) {
 			localWrapped.add(monitor.wrapNode(child, child.getUuid()));
 		}
