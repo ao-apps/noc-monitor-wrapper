@@ -32,37 +32,39 @@ import java.rmi.RemoteException;
  */
 public class WrappedSingleResultListener implements SingleResultListener {
 
-	final WrappedMonitor monitor;
-	private final SingleResultListener wrapped;
+  final WrappedMonitor monitor;
+  private final SingleResultListener wrapped;
 
-	protected WrappedSingleResultListener(WrappedMonitor monitor, SingleResultListener wrapped) {
-		this.monitor = monitor;
-		this.wrapped = wrapped;
-	}
+  protected WrappedSingleResultListener(WrappedMonitor monitor, SingleResultListener wrapped) {
+    this.monitor = monitor;
+    this.wrapped = wrapped;
+  }
 
-	@Override
-	public void singleResultUpdated(SingleResult singleResult) throws RemoteException {
-		wrapped.singleResultUpdated(singleResult);
-	}
+  @Override
+  public void singleResultUpdated(SingleResult singleResult) throws RemoteException {
+    wrapped.singleResultUpdated(singleResult);
+  }
 
-	@Override
-	public boolean equals(Object obj) {
-		if(!(obj instanceof SingleResultListener)) return false;
+  @Override
+  public boolean equals(Object obj) {
+    if (!(obj instanceof SingleResultListener)) {
+      return false;
+    }
 
-		// Unwrap this
-		SingleResultListener thisSingleResultListener = WrappedSingleResultListener.this;
-		while(thisSingleResultListener instanceof WrappedSingleResultListener) thisSingleResultListener = ((WrappedSingleResultListener)thisSingleResultListener).wrapped;
+    // Unwrap this
+    SingleResultListener thisSingleResultListener = WrappedSingleResultListener.this;
+    while (thisSingleResultListener instanceof WrappedSingleResultListener) thisSingleResultListener = ((WrappedSingleResultListener)thisSingleResultListener).wrapped;
 
-		// Unwrap other
-		SingleResultListener otherSingleResultListener = (SingleResultListener)obj;
-		while(otherSingleResultListener instanceof WrappedSingleResultListener) otherSingleResultListener = ((WrappedSingleResultListener)otherSingleResultListener).wrapped;
+    // Unwrap other
+    SingleResultListener otherSingleResultListener = (SingleResultListener)obj;
+    while (otherSingleResultListener instanceof WrappedSingleResultListener) otherSingleResultListener = ((WrappedSingleResultListener)otherSingleResultListener).wrapped;
 
-		// Check equals
-		return thisSingleResultListener.equals(otherSingleResultListener);
-	}
+    // Check equals
+    return thisSingleResultListener.equals(otherSingleResultListener);
+  }
 
-	@Override
-	public int hashCode() {
-		return wrapped.hashCode();
-	}
+  @Override
+  public int hashCode() {
+    return wrapped.hashCode();
+  }
 }

@@ -32,37 +32,39 @@ import java.rmi.RemoteException;
  */
 public class WrappedTableResultListener implements TableResultListener {
 
-	final WrappedMonitor monitor;
-	private final TableResultListener wrapped;
+  final WrappedMonitor monitor;
+  private final TableResultListener wrapped;
 
-	protected WrappedTableResultListener(WrappedMonitor monitor, TableResultListener wrapped) {
-		this.monitor = monitor;
-		this.wrapped = wrapped;
-	}
+  protected WrappedTableResultListener(WrappedMonitor monitor, TableResultListener wrapped) {
+    this.monitor = monitor;
+    this.wrapped = wrapped;
+  }
 
-	@Override
-	public void tableResultUpdated(TableResult tableResult) throws RemoteException {
-		wrapped.tableResultUpdated(tableResult);
-	}
+  @Override
+  public void tableResultUpdated(TableResult tableResult) throws RemoteException {
+    wrapped.tableResultUpdated(tableResult);
+  }
 
-	@Override
-	public boolean equals(Object obj) {
-		if(!(obj instanceof TableResultListener)) return false;
+  @Override
+  public boolean equals(Object obj) {
+    if (!(obj instanceof TableResultListener)) {
+      return false;
+    }
 
-		// Unwrap this
-		TableResultListener thisTableResultListener = WrappedTableResultListener.this;
-		while(thisTableResultListener instanceof WrappedTableResultListener) thisTableResultListener = ((WrappedTableResultListener)thisTableResultListener).wrapped;
+    // Unwrap this
+    TableResultListener thisTableResultListener = WrappedTableResultListener.this;
+    while (thisTableResultListener instanceof WrappedTableResultListener) thisTableResultListener = ((WrappedTableResultListener)thisTableResultListener).wrapped;
 
-		// Unwrap other
-		TableResultListener otherTableResultListener = (TableResultListener)obj;
-		while(otherTableResultListener instanceof WrappedTableResultListener) otherTableResultListener = ((WrappedTableResultListener)otherTableResultListener).wrapped;
+    // Unwrap other
+    TableResultListener otherTableResultListener = (TableResultListener)obj;
+    while (otherTableResultListener instanceof WrappedTableResultListener) otherTableResultListener = ((WrappedTableResultListener)otherTableResultListener).wrapped;
 
-		// Check equals
-		return thisTableResultListener.equals(otherTableResultListener);
-	}
+    // Check equals
+    return thisTableResultListener.equals(otherTableResultListener);
+  }
 
-	@Override
-	public int hashCode() {
-		return wrapped.hashCode();
-	}
+  @Override
+  public int hashCode() {
+    return wrapped.hashCode();
+  }
 }

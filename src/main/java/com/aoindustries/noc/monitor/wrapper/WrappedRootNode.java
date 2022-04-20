@@ -38,61 +38,61 @@ import java.util.SortedSet;
  */
 public class WrappedRootNode extends WrappedNode implements RootNode {
 
-	private final RootNode wrapped;
+  private final RootNode wrapped;
 
-	protected WrappedRootNode(WrappedMonitor monitor, RootNode wrapped) {
-		super(monitor, wrapped);
-		this.wrapped = wrapped;
-	}
+  protected WrappedRootNode(WrappedMonitor monitor, RootNode wrapped) {
+    super(monitor, wrapped);
+    this.wrapped = wrapped;
+  }
 
-	@Override
-	public void addTreeListener(TreeListener treeListener) throws RemoteException {
-		wrapped.addTreeListener(monitor.wrapTreeListener(treeListener));
-	}
+  @Override
+  public void addTreeListener(TreeListener treeListener) throws RemoteException {
+    wrapped.addTreeListener(monitor.wrapTreeListener(treeListener));
+  }
 
-	@Override
-	public void removeTreeListener(TreeListener treeListener) throws RemoteException {
-		wrapped.removeTreeListener(monitor.wrapTreeListener(treeListener));
-	}
+  @Override
+  public void removeTreeListener(TreeListener treeListener) throws RemoteException {
+    wrapped.removeTreeListener(monitor.wrapTreeListener(treeListener));
+  }
 
-	@Override
-	public NodeSnapshot getSnapshot() throws RemoteException {
-		return wrapSnapshot(monitor, wrapped.getSnapshot());
-	}
+  @Override
+  public NodeSnapshot getSnapshot() throws RemoteException {
+    return wrapSnapshot(monitor, wrapped.getSnapshot());
+  }
 
-	/**
-	 * Recursively wraps the nodes of the snapshot.
-	 */
-	private static NodeSnapshot wrapSnapshot(final WrappedMonitor monitor, final NodeSnapshot snapshot) throws RemoteException {
-		List<NodeSnapshot> newChildren;
-		{
-			List<NodeSnapshot> children = snapshot.getChildren();
-			int size = children.size();
-			if(size==0) {
-				newChildren = Collections.emptyList();
-			} else if(size==1) {
-				newChildren = Collections.singletonList(wrapSnapshot(monitor, children.get(0)));
-			} else {
-				newChildren = new ArrayList<>(size);
-				for(NodeSnapshot child : children) {
-					newChildren.add(wrapSnapshot(monitor, child));
-				}
-			}
-		}
-		return new NodeSnapshot(
-			monitor.wrapNode(snapshot.getNode(), snapshot.getUuid()),
-			newChildren,
-			snapshot.getAlertLevel(),
-			snapshot.getAlertMessage(),
-			snapshot.getAllowsChildren(),
-			snapshot.getId(),
-			snapshot.getLabel(),
-			snapshot.getUuid()
-		);
-	}
+  /**
+   * Recursively wraps the nodes of the snapshot.
+   */
+  private static NodeSnapshot wrapSnapshot(final WrappedMonitor monitor, final NodeSnapshot snapshot) throws RemoteException {
+    List<NodeSnapshot> newChildren;
+    {
+      List<NodeSnapshot> children = snapshot.getChildren();
+      int size = children.size();
+      if (size == 0) {
+        newChildren = Collections.emptyList();
+      } else if (size == 1) {
+        newChildren = Collections.singletonList(wrapSnapshot(monitor, children.get(0)));
+      } else {
+        newChildren = new ArrayList<>(size);
+        for (NodeSnapshot child : children) {
+          newChildren.add(wrapSnapshot(monitor, child));
+        }
+      }
+    }
+    return new NodeSnapshot(
+      monitor.wrapNode(snapshot.getNode(), snapshot.getUuid()),
+      newChildren,
+      snapshot.getAlertLevel(),
+      snapshot.getAlertMessage(),
+      snapshot.getAllowsChildren(),
+      snapshot.getId(),
+      snapshot.getLabel(),
+      snapshot.getUuid()
+    );
+  }
 
-	@Override
-	public SortedSet<MonitoringPoint> getMonitoringPoints() throws RemoteException {
-		return wrapped.getMonitoringPoints();
-	}
+  @Override
+  public SortedSet<MonitoringPoint> getMonitoringPoints() throws RemoteException {
+    return wrapped.getMonitoringPoints();
+  }
 }

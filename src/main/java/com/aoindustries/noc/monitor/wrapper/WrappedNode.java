@@ -37,88 +37,90 @@ import java.util.UUID;
  */
 public class WrappedNode implements Node {
 
-	final WrappedMonitor monitor;
-	private final Node wrapped;
-	private final UUID uuid;
+  final WrappedMonitor monitor;
+  private final Node wrapped;
+  private final UUID uuid;
 
-	protected WrappedNode(WrappedMonitor monitor, Node wrapped) {
-		this.monitor = monitor;
-		this.wrapped = wrapped;
-		this.uuid    = UUID.randomUUID();
-	}
+  protected WrappedNode(WrappedMonitor monitor, Node wrapped) {
+    this.monitor = monitor;
+    this.wrapped = wrapped;
+    this.uuid    = UUID.randomUUID();
+  }
 
-	@Override
-	public WrappedNode getParent() throws RemoteException {
-		Node wrappedParent = wrapped.getParent();
-		return monitor.wrapNode(wrappedParent, wrappedParent.getUuid());
-	}
+  @Override
+  public WrappedNode getParent() throws RemoteException {
+    Node wrappedParent = wrapped.getParent();
+    return monitor.wrapNode(wrappedParent, wrappedParent.getUuid());
+  }
 
-	@Override
-	public List<? extends WrappedNode> getChildren() throws RemoteException {
-		List<? extends Node> children = wrapped.getChildren();
-		// Wrap
-		List<WrappedNode> localWrapped = new ArrayList<>(children.size());
-		for(Node child : children) {
-			localWrapped.add(monitor.wrapNode(child, child.getUuid()));
-		}
-		return Collections.unmodifiableList(localWrapped);
-	}
+  @Override
+  public List<? extends WrappedNode> getChildren() throws RemoteException {
+    List<? extends Node> children = wrapped.getChildren();
+    // Wrap
+    List<WrappedNode> localWrapped = new ArrayList<>(children.size());
+    for (Node child : children) {
+      localWrapped.add(monitor.wrapNode(child, child.getUuid()));
+    }
+    return Collections.unmodifiableList(localWrapped);
+  }
 
-	@Override
-	public AlertLevel getAlertLevel() throws RemoteException {
-		return wrapped.getAlertLevel();
-	}
+  @Override
+  public AlertLevel getAlertLevel() throws RemoteException {
+    return wrapped.getAlertLevel();
+  }
 
-	@Override
-	public String getAlertMessage() throws RemoteException {
-		return wrapped.getAlertMessage();
-	}
+  @Override
+  public String getAlertMessage() throws RemoteException {
+    return wrapped.getAlertMessage();
+  }
 
-	@Override
-	public boolean getAllowsChildren() throws RemoteException {
-		return wrapped.getAllowsChildren();
-	}
+  @Override
+  public boolean getAllowsChildren() throws RemoteException {
+    return wrapped.getAllowsChildren();
+  }
 
-	@Override
-	public String getId() throws RemoteException {
-		return wrapped.getId();
-	}
+  @Override
+  public String getId() throws RemoteException {
+    return wrapped.getId();
+  }
 
-	@Override
-	public String getLabel() throws RemoteException {
-		return wrapped.getLabel();
-	}
+  @Override
+  public String getLabel() throws RemoteException {
+    return wrapped.getLabel();
+  }
 
-	/**
-	 * After wrapping, the wrapped node gets a new UUID.
-	 */
-	@Override
-	public UUID getUuid() throws RemoteException {
-		return uuid;
-	}
+  /**
+   * After wrapping, the wrapped node gets a new UUID.
+   */
+  @Override
+  public UUID getUuid() throws RemoteException {
+    return uuid;
+  }
 
-	@Override
-	public boolean equals(Object obj) {
-		if(!(obj instanceof Node)) return false;
-		Node other = (Node)obj;
-		try {
-			return uuid.equals(other.getUuid());
-		} catch(RemoteException err) {
-			throw new WrappedException(err);
-		}
-	}
+  @Override
+  public boolean equals(Object obj) {
+    if (!(obj instanceof Node)) {
+      return false;
+    }
+    Node other = (Node)obj;
+    try {
+      return uuid.equals(other.getUuid());
+    } catch (RemoteException err) {
+      throw new WrappedException(err);
+    }
+  }
 
-	@Override
-	public int hashCode() {
-		return uuid.hashCode();
-	}
+  @Override
+  public int hashCode() {
+    return uuid.hashCode();
+  }
 
-	@Override
-	public String toString() {
-		try {
-			return getLabel();
-		} catch(RemoteException err) {
-			throw new WrappedException(err);
-		}
-	}
+  @Override
+  public String toString() {
+    try {
+      return getLabel();
+    } catch (RemoteException err) {
+      throw new WrappedException(err);
+    }
+  }
 }

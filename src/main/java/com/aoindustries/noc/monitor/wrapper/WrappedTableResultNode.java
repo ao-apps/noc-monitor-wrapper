@@ -33,25 +33,25 @@ import java.rmi.RemoteException;
  */
 public class WrappedTableResultNode extends WrappedNode implements TableResultNode {
 
-	private final TableResultNode wrapped;
+  private final TableResultNode wrapped;
 
-	protected WrappedTableResultNode(WrappedMonitor monitor, TableResultNode wrapped) {
-		super(monitor, wrapped);
-		this.wrapped = wrapped;
-	}
+  protected WrappedTableResultNode(WrappedMonitor monitor, TableResultNode wrapped) {
+    super(monitor, wrapped);
+    this.wrapped = wrapped;
+  }
 
-	@Override
-	public void addTableResultListener(TableResultListener tableResultListener) throws RemoteException {
-		wrapped.addTableResultListener(monitor.wrapTableResultListener(tableResultListener));
-	}
+  @Override
+  public void addTableResultListener(TableResultListener tableResultListener) throws RemoteException {
+    wrapped.addTableResultListener(monitor.wrapTableResultListener(tableResultListener));
+  }
 
-	@Override
-	public void removeTableResultListener(TableResultListener tableResultListener) throws RemoteException {
-		wrapped.removeTableResultListener(monitor.wrapTableResultListener(tableResultListener));
-	}
+  @Override
+  public void removeTableResultListener(TableResultListener tableResultListener) throws RemoteException {
+    wrapped.removeTableResultListener(monitor.wrapTableResultListener(tableResultListener));
+  }
 
-	@Override
-	public TableResult getLastResult() throws RemoteException {
-		return wrapped.getLastResult();
-	}
+  @Override
+  public TableResult getLastResult() throws RemoteException {
+    return wrapped.getLastResult();
+  }
 }

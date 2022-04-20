@@ -34,30 +34,30 @@ import java.util.List;
  */
 public class WrappedTableMultiResultNode<R extends TableMultiResult> extends WrappedNode implements TableMultiResultNode<R> {
 
-	private final TableMultiResultNode<R> wrapped;
+  private final TableMultiResultNode<R> wrapped;
 
-	protected WrappedTableMultiResultNode(WrappedMonitor monitor, TableMultiResultNode<R> wrapped) {
-		super(monitor, wrapped);
-		this.wrapped = wrapped;
-	}
+  protected WrappedTableMultiResultNode(WrappedMonitor monitor, TableMultiResultNode<R> wrapped) {
+    super(monitor, wrapped);
+    this.wrapped = wrapped;
+  }
 
-	@Override
-	public void addTableMultiResultListener(TableMultiResultListener<? super R> tableMultiResultListener) throws RemoteException {
-		wrapped.addTableMultiResultListener(monitor.wrapTableMultiResultListener(tableMultiResultListener));
-	}
+  @Override
+  public void addTableMultiResultListener(TableMultiResultListener<? super R> tableMultiResultListener) throws RemoteException {
+    wrapped.addTableMultiResultListener(monitor.wrapTableMultiResultListener(tableMultiResultListener));
+  }
 
-	@Override
-	public void removeTableMultiResultListener(TableMultiResultListener<? super R> tableMultiResultListener) throws RemoteException {
-		wrapped.removeTableMultiResultListener(monitor.wrapTableMultiResultListener(tableMultiResultListener));
-	}
+  @Override
+  public void removeTableMultiResultListener(TableMultiResultListener<? super R> tableMultiResultListener) throws RemoteException {
+    wrapped.removeTableMultiResultListener(monitor.wrapTableMultiResultListener(tableMultiResultListener));
+  }
 
-	@Override
-	public List<?> getColumnHeaders() throws RemoteException {
-		return wrapped.getColumnHeaders();
-	}
+  @Override
+  public List<?> getColumnHeaders() throws RemoteException {
+    return wrapped.getColumnHeaders();
+  }
 
-	@Override
-	public List<? extends R> getResults() throws RemoteException {
-		return wrapped.getResults();
-	}
+  @Override
+  public List<? extends R> getResults() throws RemoteException {
+    return wrapped.getResults();
+  }
 }
