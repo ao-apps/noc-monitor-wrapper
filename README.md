@@ -13,7 +13,7 @@ Base support for wrappers of [Monitoring API](https://github.com/ao-apps/noc-mon
 * [Project Home](https://aoindustries.com/noc/monitor/wrapper/)
 * [Changelog](https://aoindustries.com/noc/monitor/wrapper/changelog)
 * [API Docs](https://aoindustries.com/noc/monitor/wrapper/apidocs/)
-* [Maven Central Repository](https://search.maven.org/artifact/com.aoindustries/noc-monitor-wrapper)
+* [Maven Central Repository](https://central.sonatype.com/search?namespace=com.aoindustries&q=a%3Anoc-monitor-wrapper)
 * [GitHub](https://github.com/ao-apps/noc-monitor-wrapper)
 
 ## Contact Us
