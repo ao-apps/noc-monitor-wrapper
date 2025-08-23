@@ -145,7 +145,7 @@ public class WrappedMonitor implements Monitor {
           return wrapper;
         }
       }
-      //UUID uuid = node.getUuid();
+      // UUID uuid = node.getUuid();
       synchronized (nodeCache) {
         WrappedNode wrapper = nodeCache.get(uuid);
         if (wrapper == null) {
@@ -172,7 +172,7 @@ public class WrappedMonitor implements Monitor {
         return wrapper;
       }
     }
-    //UUID uuid = node.getUuid();
+    // UUID uuid = node.getUuid();
     synchronized (rootNodeCache) {
       WrappedRootNode wrapper = rootNodeCache.get(uuid);
       if (wrapper == null) {
@@ -198,7 +198,7 @@ public class WrappedMonitor implements Monitor {
         return wrapper;
       }
     }
-    //UUID uuid = node.getUuid();
+    // UUID uuid = node.getUuid();
     synchronized (singleResultNodeCache) {
       WrappedSingleResultNode wrapper = singleResultNodeCache.get(uuid);
       if (wrapper == null) {
@@ -226,7 +226,7 @@ public class WrappedMonitor implements Monitor {
         return wrapper;
       }
     }
-    //UUID uuid = node.getUuid();
+    // UUID uuid = node.getUuid();
     synchronized (tableMultiResultNodeCache) {
       WrappedTableMultiResultNode<R> wrapper = tableMultiResultNodeCache.get(uuid);
       if (wrapper == null) {
@@ -252,7 +252,7 @@ public class WrappedMonitor implements Monitor {
         return wrapper;
       }
     }
-    //UUID uuid = node.getUuid();
+    // UUID uuid = node.getUuid();
     synchronized (tableResultNodeCache) {
       WrappedTableResultNode wrapper = tableResultNodeCache.get(uuid);
       if (wrapper == null) {
