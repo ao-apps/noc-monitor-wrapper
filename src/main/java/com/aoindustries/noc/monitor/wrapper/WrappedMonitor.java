@@ -76,8 +76,8 @@ public class WrappedMonitor implements Monitor {
    * Disconnects this wrapper.  The wrapper will automatically reconnect on the next use.
    * TODO: How to signal outer cache layers?
    *
-   * @see #getWrapped()
-   * @see #connect()
+   * @see WrappedMonitor#getWrapped()
+   * @see WrappedMonitor#connect()
    */
   protected final void disconnect() throws RemoteException {
     synchronized (connectionLock) {
@@ -88,8 +88,8 @@ public class WrappedMonitor implements Monitor {
   /**
    * Gets the wrapped monitor, reconnecting if needed.
    *
-   * @see #disconnect()
-   * @see #connect()
+   * @see WrappedMonitor#disconnect()
+   * @see WrappedMonitor#connect()
    */
   protected final Monitor getWrapped() throws RemoteException {
     synchronized (connectionLock) {
@@ -106,8 +106,8 @@ public class WrappedMonitor implements Monitor {
    *
    * @exception  UnsupportedOperationException  if not supported
    *
-   * @see #disconnect()
-   * @see #getWrapped()
+   * @see WrappedMonitor#disconnect()
+   * @see WrappedMonitor#getWrapped()
    */
   protected Monitor connect() throws RemoteException, UnsupportedOperationException {
     throw new UnsupportedOperationException("Reconnect not supported.");
